@@ -1,50 +1,48 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import BaseContainer from '@/components/ui/BaseContainer.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import ActionButton from '@/components/ui/ActionButton.vue'
 import TagBadge from '@/components/ui/TagBadge.vue'
 import ProjectGrid from '@/components/ui/ProjectGrid.vue'
-
-import serverMonitorCover from '@/assets/images/module-server-monitor.svg'
-import knowledgeBaseCover from '@/assets/images/module-knowledge-base.svg'
-import watchPartyCover from '@/assets/images/module-watch-party.svg'
+import { fetch_all_apps } from '@/api/app_api'
 
 /**
- * 首页导航数据
- * 后续只需替换/新增这个数组内容，就能扩展导航入口。
+ * 封面图放在 `@/assets/images/` 下，命名规则为 `<app_id>_<title>.svg`。
+ * 通过 `new URL(..., import.meta.url)` 按 app 信息动态解析对应的那一张；
+ * Vite 在构建时会把该目录下匹配到的 svg 作为带 hash 的静态资源一起打进 `dist/assets/`。
  */
-const projects = [
-  {
-    title: '服务器运行监控',
-    summary: '监控服务器运行状态，包括CPU、内存、磁盘、网络等指标。',
-    cover: serverMonitorCover,
-    tags: ['服务器', '监控', '状态'],
-    actions: [
-      { label: '进入模块', to: '/', variant: 'primary' },
-      { label: '关于本模块', href: '#', variant: 'secondary' },
-    ],
-  },
-  {
-    title: 'pwiki知识库',
-    summary: '用于放置个人知识库，支持快速查阅和编辑。',
-    cover: knowledgeBaseCover,
-    tags: ['知识库', '查阅', '编辑'],
-    actions: [
-      { label: '进入模块', to: '/', variant: 'primary' },
-      { label: '关于本模块', href: '#', variant: 'secondary' },
-    ],
-  },
-  {
-    title: '视频同步观看',
-    summary: '支持多人同时观看视频，支持实时同步进度。',
-    cover: watchPartyCover,
-    tags: ['视频', '同步', '观看'],
-    actions: [
-      { label: '进入模块', to: '/', variant: 'primary' },
-      { label: '关于本模块', href: '#', variant: 'secondary' },
-    ],
-  },
-]
+function resolve_cover(app) {
+  return new URL(
+    `../assets/images/${app.appid}_${app.title}.svg`,
+    import.meta.url
+  ).href
+}
+
+const apps = ref([])
+const loading = ref(false)
+const error_msg = ref('')
+
+onMounted(async () => {
+  loading.value = true
+  try {
+    const resp = await fetch_all_apps()
+    const payload = resp.data
+    if (payload?.success) {
+      apps.value = (payload.data?.apps || []).map((app) => ({
+        ...app,
+        cover: resolve_cover(app),
+      }))
+    } else {
+      error_msg.value = payload?.data?.msg || '获取应用列表失败'
+    }
+  } catch (err) {
+    console.error(err)
+    error_msg.value = err.message || '请求应用列表出错'
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <template>
@@ -75,7 +73,9 @@ const projects = [
           subtitle="请选择你想体验的功能模块"
         />
 
-        <ProjectGrid :projects="projects" :columns="3" />
+        <p v-if="loading" class="status-line">正在加载应用列表…</p>
+        <p v-else-if="error_msg" class="status-line error">{{ error_msg }}</p>
+        <ProjectGrid v-else :projects="apps" :columns="3" />
       </BaseContainer>
     </section>
   </main>
@@ -109,6 +109,16 @@ const projects = [
 
 .projects :deep(.section-header) {
   margin-bottom: 1rem;
+}
+
+.status-line {
+  padding: 1rem;
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+}
+
+.status-line.error {
+  color: #c0392b;
 }
 
 @media (min-width: 1080px) {

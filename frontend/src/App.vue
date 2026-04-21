@@ -30,7 +30,9 @@ const footerLinks = [
       :brand="brand"
       :links="navLinks"
       cta-label="登录"
-      cta-to="/"
+      cta-to="/login"
+      secondary-cta-label="注册"
+      secondary-cta-to="/register"
       :current-user="currentUser"
     />
     <main class="page-content">

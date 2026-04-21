@@ -35,6 +35,14 @@ const props = defineProps({
     type: [String, Object],
     default: '',
   },
+  secondaryCtaLabel: {
+    type: String,
+    default: '',
+  },
+  secondaryCtaTo: {
+    type: [String, Object],
+    default: '',
+  },
   /**
    * currentUser 结构示例：
    * {
@@ -108,6 +116,16 @@ function isActiveLink(link) {
           :label="ctaLabel"
           :to="ctaTo"
           variant="primary"
+          size="sm"
+          @click="closeMenu"
+        />
+
+        <ActionButton
+          v-if="secondaryCtaLabel"
+          class="cta"
+          :label="secondaryCtaLabel"
+          :to="secondaryCtaTo"
+          variant="secondary"
           size="sm"
           @click="closeMenu"
         />

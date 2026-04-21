@@ -9,15 +9,17 @@ import TagBadge from './TagBadge.vue'
  * - 通过 item 对象传入内容，方便接入后端接口或本地配置
  *
  * 调用示例：
- * <ProjectCard :item="projectItem" />
+ * <ProjectCard :item="app" />
  *
- * projectItem 推荐结构：
+ * app 推荐结构：
  * {
+ *   appid: 1,
  *   title: '项目名称',
  *   summary: '项目说明',
  *   cover: '/img/demo.svg',
  *   tags: ['Vue', 'Vite'],
- *   actions: [{ label: '进入', to: '/about' }]
+ *   url: 'https://...',       // 进入模块按钮的链接
+ *   about_url: 'https://...'  // 关于本模块按钮的链接
  * }
  */
 defineProps({
@@ -47,13 +49,15 @@ defineProps({
 
       <div class="actions">
         <ActionButton
-          v-for="action in item.actions || []"
-          :key="`${item.title}-${action.label}`"
-          :label="action.label"
-          :to="action.to"
-          :href="action.href"
-          :new-tab="Boolean(action.newTab)"
-          :variant="action.variant || 'secondary'"
+          label="进入模块"
+          :href="item.url"
+          variant="primary"
+          size="sm"
+        />
+        <ActionButton
+          label="关于本模块"
+          :href="item.about_url"
+          variant="secondary"
           size="sm"
         />
       </div>
