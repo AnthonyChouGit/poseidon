@@ -1,5 +1,5 @@
-const {db} = require('./db');
-const { is_valid_username, is_valid_password, is_valid_email } = require('./user_validation');
+const {db} = require('../utils/db');
+const { is_valid_username, is_valid_password, is_valid_email } = require('../utils/user_validation');
 const jwt = require('jsonwebtoken');
 const jwt_secret_key = process.env.JWT_SECRET_KEY || 'nozomu_secret_key';
 const jwt_expires_in = process.env.JWT_EXPIRES_IN || 3600000;

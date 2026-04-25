@@ -1,27 +1,9 @@
-import axios from 'axios';
+import api from './client';
 
-base_url = 'nozomu-ac.top:90';
+const login = (data) => api.post('/api/login', data);
 
-const login = axios.create({
-        baseURL: base_url,
-        timeout: 5000,
-        url: '/api/login',
-        method: 'POST'
-});
+const register = (data) => api.post('/api/register', data);
 
-
-const register = axios.create({
-        baseURL: base_url,
-        timeout: 5000,
-        url: '/api/register',
-        method: 'POST'
-});
-
-const verify = axios.create({
-        baseURL: base_url,
-        timeout: 5000,
-        url: '/api/verify',
-        method: 'GET'
-});
+const verify = () => api.get('/api/verify');
 
 export { login, register, verify };

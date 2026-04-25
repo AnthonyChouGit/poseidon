@@ -8,15 +8,11 @@ import ProjectGrid from '@/components/ui/ProjectGrid.vue'
 import { fetch_all_apps } from '@/api/app_api'
 
 /**
- * 封面图放在 `@/assets/images/` 下，命名规则为 `<app_id>_<title>.svg`。
- * 通过 `new URL(..., import.meta.url)` 按 app 信息动态解析对应的那一张；
- * Vite 在构建时会把该目录下匹配到的 svg 作为带 hash 的静态资源一起打进 `dist/assets/`。
+ * 封面图放在仓库根的 `media/covers/` 下，命名规则为 `<appid>_<title>.svg`，
+ * 由后端的 media router 通过 `/media/covers/...` 路径下发，前端按需拼 URL 拉取。
  */
 function resolve_cover(app) {
-  return new URL(
-    `../assets/images/${app.appid}_${app.title}.svg`,
-    import.meta.url
-  ).href
+  return `/media/covers/${app.appid}_${app.title}.svg`
 }
 
 const apps = ref([])
