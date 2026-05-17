@@ -12,8 +12,8 @@ const blocks = [
   },
   {
     title: '后端实现',
-    desc: '使用Express.js和MongoDB实现后端API接口。',
-    tags: ['Express.js', 'MongoDB'],
+    desc: '使用Fastify和PostgreSQL实现后端API接口。',
+    tags: ['Fastify', 'PostgreSQL'],
   },
 ]
 </script>

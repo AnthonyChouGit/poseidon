@@ -8,11 +8,11 @@ import ProjectGrid from '@/components/ui/ProjectGrid.vue'
 import { fetch_all_apps } from '@/api/app_api'
 
 /**
- * 封面图放在仓库根的 `media/covers/` 下，命名规则为 `<appid>_<title>.svg`，
+ * 封面图放在仓库根的 `media/covers/` 下，命名规则为 `APP_${app.appid}_COVER.svg`，
  * 由后端的 media router 通过 `/media/covers/...` 路径下发，前端按需拼 URL 拉取。
  */
 function resolve_cover(app) {
-  return `/media/covers/${app.appid}_${app.title}.svg`
+  return `/media/poseidon/app_covers/APP_${app.appid}_COVER.jpg`
 }
 
 const apps = ref([])
@@ -24,14 +24,10 @@ onMounted(async () => {
   try {
     const resp = await fetch_all_apps()
     const payload = resp.data
-    if (payload?.success) {
-      apps.value = (payload.data?.apps || []).map((app) => ({
-        ...app,
-        cover: resolve_cover(app),
-      }))
-    } else {
-      error_msg.value = payload?.data?.msg || '获取应用列表失败'
-    }
+    apps.value = payload.map((app) => ({
+      ...app,
+      cover: resolve_cover(app),
+    }))
   } catch (err) {
     console.error(err)
     error_msg.value = err.message || '请求应用列表出错'
@@ -51,7 +47,7 @@ onMounted(async () => {
         >
           <template #actions>
             <TagBadge text="前端：vue.js" />
-            <TagBadge text="后端：express.js" tone="success" />
+            <TagBadge text="后端：Fastify" tone="success" />
           </template>
         </SectionHeader>
 

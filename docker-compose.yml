@@ -1,0 +1,45 @@
+services:
+    poseidon_backend:
+        image: node:slim
+        # container_name: poseidon_backend
+        volumes:
+          - ./build/backend:/poseidon
+        entrypoint: ["/bin/bash", "-c", "node /poseidon/index.js"]
+        restart: unless-stopped
+        environment:
+            DB_HOST: db
+            DB_DATABASE: poseidon_db
+            DB_USER: poseidon_db_root
+            DB_PASSWORD: dfajknbvwaef
+            PORT: 3000
+        networks: 
+          - nginx_network
+          - poseidon_db_network
+        deploy:
+          replicas: 2
+
+    db:
+        image: postgres:18
+        container_name: poseidon_db
+        volumes:
+          - poseidon_postgres:/var/lib/postgres
+          - ./build/db_init.sql:/docker-entrypoint-initdb.d/db_init.sql:ro
+        environment:
+            POSTGRES_USER: poseidon_db_root
+            POSTGRES_PASSWORD: dfajknbvwaef
+            POSTGRES_DB: poseidon_db
+        restart: unless-stopped
+        ports:
+          - "5432:5432"
+        networks:
+          - poseidon_db_network
+
+volumes:
+    poseidon_postgres:
+
+networks:
+    nginx_network:
+      name: nginx_network
+      external: true
+    poseidon_db_network:
+      name: poseidon_db_network

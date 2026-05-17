@@ -5,6 +5,20 @@
 const fetchAllApps = async (pg) => {
     try {
         const { rows } = await pg.query("SELECT appid, title, summary, url, about_url, tags, create_at FROM poseidon_apps ORDER BY appid")
+        if (rows.length === 0) {
+            return {
+                success: false,
+                data: null,
+                message: "No apps found",
+                code: 1
+            }
+        }
+        return {
+            success: true,
+            data: rows,
+            message: "Apps fetched successfully",
+            code: 0
+        }
     } catch (err) {
         console.error("Error fetching apps:", err)
         return {
@@ -14,22 +28,8 @@ const fetchAllApps = async (pg) => {
             code: -1
         }
     }
-    if (rows.length === 0) {
-        return {
-            success: false,
-            data: null,
-            message: "No apps found",
-            code: 1
-        }
-    }
-    return {
-        success: true,
-        data: rows,
-        message: "Apps fetched successfully",
-        code: 0
-    }
 }
 
-export default {
+export {
     fetchAllApps
 }
