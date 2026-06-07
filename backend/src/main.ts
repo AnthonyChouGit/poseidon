@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestFastifyApplication, FastifyAdapter } from '@nestjs/platform-fastify';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
@@ -9,6 +10,10 @@ async function bootstrap() {
     whitelist: true,
     transform: true
   }));
-  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
+  const config_service: ConfigService = app.get(ConfigService);
+  const port: number = config_service.get<number>('server.port') ?? 3000;
+  const host: string = config_service.get<string>('server.host') ?? '0.0.0.0';
+
+  await app.listen(port, host);
 }
 bootstrap();
