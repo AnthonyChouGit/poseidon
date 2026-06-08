@@ -4,7 +4,7 @@ import { PoseidonApp } from "../public/app.entity";
 import { InternalResponse } from "src/utils/response";
 
 @Controller('api/apps')
-export class PoseidonAppController {
+export class PoseidonAppsController {
     constructor(private readonly poseidonAppsService: PoseidonAppsService) { }
 
     @Get()
