@@ -47,7 +47,7 @@ onMounted(async () => {
         >
           <template #actions>
             <TagBadge text="前端：vue.js" />
-            <TagBadge text="后端：Fastify" tone="success" />
+            <TagBadge text="后端：NestJS" tone="success" />
           </template>
         </SectionHeader>
 

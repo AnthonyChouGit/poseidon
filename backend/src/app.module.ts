@@ -21,7 +21,7 @@ import { PoseidonAppsModule } from './feature_modules/poseidon_apps/poseidon_app
         port: config.get("database.port"),
         username: config.get("database.username"),
         password: config.get("database.password"),
-        database: config.get("database.database"),
+        database: config.get("database.name"),
         synchronize: false,
         autoLoadEntities: true,
       })

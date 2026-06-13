@@ -1,0 +1,11 @@
+database:
+  host: "db"
+  username: "db_dev_root"
+  password: "970928"
+  name: "db_dev"
+
+auth:
+  jwt_secret_key: "sdfaaslk;mfs"
+
+server:
+  port: 5173

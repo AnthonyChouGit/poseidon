@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-const InternalResponseSchema = z.object({
+export const InternalResponseSchema = z.object({
     success: z.boolean().default(true),
     data: z.any().nullable().default(null),
     message: z.string().default('OK'),

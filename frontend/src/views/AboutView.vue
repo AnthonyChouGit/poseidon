@@ -12,8 +12,8 @@ const blocks = [
   },
   {
     title: '后端实现',
-    desc: '使用Fastify和PostgreSQL实现后端API接口。',
-    tags: ['Fastify', 'PostgreSQL'],
+    desc: '使用NestJS和PostgreSQL实现后端API接口。',
+    tags: ['NestJS', 'PostgreSQL'],
   },
 ]
 </script>
