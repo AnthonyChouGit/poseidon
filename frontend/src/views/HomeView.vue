@@ -12,7 +12,7 @@ import { fetch_all_apps } from '@/api/app_api'
  * 由后端的 media router 通过 `/media/covers/...` 路径下发，前端按需拼 URL 拉取。
  */
 function resolve_cover(app) {
-  return `/media/poseidon/app_covers/APP_${app.appid}_COVER.jpg`
+  return `/media/app_covers/APP_${app.appid}_COVER.jpg`
 }
 
 const apps = ref([])
