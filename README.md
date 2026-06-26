@@ -49,3 +49,47 @@ server:
 ```bash
 CONFIG_PATH=/path/to/your/config.yaml node dist/main
 ```
+
+---
+
+### 使用 `.env` 文件配置
+
+除了 YAML 之外，也支持使用 `.env` 文件进行配置。只需将 `CONFIG_PATH` 指向一个 `.env` 文件即可（文件名必须以 `.env` 结尾）。
+
+#### `.env` 变量对照表
+
+| 环境变量 | 对应 YAML 字段 | 默认值 |
+|---|---|---|
+| `DATABASE_HOST` | `database.host` | `172.17.0.1` |
+| `DATABASE_PORT` | `database.port` | `5432` |
+| `DATABASE_USER` | `database.username` | `public_db_root` |
+| `DATABASE_PASSWORD` | `database.password` | `public_db_root` |
+| `DATABASE_NAME` | `database.name` | `public_db` |
+| `JWT_SECRET_KEY` | `auth.jwt_secret_key` | `nozomu_secret_key` |
+| `JWT_EXPIRES_IN` | `auth.jwt_expires_in` | `3600000` |
+| `SERVER_PORT` | `server.port` | `5173` |
+| `SERVER_HOST` | `server.host` | `0.0.0.0` |
+
+> **注意：** 未在 `.env` 中设置的变量将自动回退到默认值。与 YAML 一样，**生产环境必须显式设置数据库密码和 JWT 密钥**。
+
+#### `.env` 示例
+
+```env
+DATABASE_HOST="db.internal"
+DATABASE_PORT=5432
+DATABASE_USER="poseidon"
+DATABASE_PASSWORD="YOUR_STRONG_PASSWORD"
+DATABASE_NAME="poseidon"
+
+JWT_SECRET_KEY="YOUR_STRONG_RANDOM_SECRET"
+JWT_EXPIRES_IN=3600000
+
+SERVER_PORT=8080
+SERVER_HOST="0.0.0.0"
+```
+
+#### 启动示例
+
+```bash
+CONFIG_PATH=/path/to/your/config.env node dist/main
+```
