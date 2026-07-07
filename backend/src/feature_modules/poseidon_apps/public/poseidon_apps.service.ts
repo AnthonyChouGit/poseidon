@@ -12,44 +12,26 @@ export class PoseidonAppsService {
     ) { }
 
     async getAllApps(): Promise<InternalResponse> {
-        try {
-            const data: Array<PoseidonApp> = await this.poseidonAppsRepo.find();
-            if (data.length === 0)
-                return formInternalResponse({
-                    success: false,
-                    data: null,
-                    message: "No apps found",
-                    code: 1
-                });
-            return formInternalResponse(data);
-        } catch (error) {
+        const data: Array<PoseidonApp> = await this.poseidonAppsRepo.find();
+        if (data.length === 0)
             return formInternalResponse({
                 success: false,
                 data: null,
-                message: `Internal server error while fetching apps. Error: ${error.message}`,
-                code: 2
+                message: "No apps found",
+                code: 1
             });
-        }
+        return formInternalResponse(data);
     }
 
     async getAppByID(appid: number): Promise<InternalResponse> {
-        try {
-            const data: PoseidonApp | null = await this.poseidonAppsRepo.findOneBy({ appid });
-            if (data == null)
-                return formInternalResponse({
-                    success: false,
-                    data: null,
-                    message: `App not found with id: ${appid}`,
-                    code: 1
-                });
-            return formInternalResponse(data);
-        } catch (error) {
+        const data: PoseidonApp | null = await this.poseidonAppsRepo.findOneBy({ appid });
+        if (data == null)
             return formInternalResponse({
                 success: false,
                 data: null,
-                message: `Internal server error while fetching app with id: ${appid}. Error: ${error.message}`,
-                code: 2
+                message: `App not found with id: ${appid}`,
+                code: 1
             });
-        }
+        return formInternalResponse(data);
     }
 }
