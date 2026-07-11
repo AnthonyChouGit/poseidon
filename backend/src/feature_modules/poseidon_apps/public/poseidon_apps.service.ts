@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PoseidonApp } from "./app.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { formInternalResponse, InternalResponse } from "../../../utils/response";
+import { formInternalResponse, InternalResponse } from "src/utils/response";
 
 @Injectable()
 export class PoseidonAppsService {
