@@ -13,7 +13,7 @@ const ConfigSchema = z.object({
     }).default({} as any),
     auth: z.object({
         jwt_secret_key: z.string().default("nozomu_secret_key"),
-        jwt_expires_in: z.coerce.number().int().positive().default(3600000),
+        jwt_expires_in: z.coerce.number().int().positive().default(3600),
     }).default({} as any),
     server: z.object({
         port: z.coerce.number().int().positive().default(5173),
